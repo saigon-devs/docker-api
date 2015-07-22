@@ -23,7 +23,7 @@ const swaggerOptions = {
     apiVersion: pack.version
 };
 server.register({
-    register: require('hapi-swagger'),
+    register: Swagger,
     options: swaggerOptions
 }, function (err) {
     if (err) {
