@@ -6,13 +6,14 @@ import path from 'path';
 import chalk from 'chalk';
 import config from './config/config';
 import pack from './package.json';
+import FileFinder from './src/utils/file-finder';
 
 // init server
 const server = new Hapi.Server();
 server.connection({port: config.port});
 
 // after that we will loading all routes
-config.getGlobbedFiles('./src/routes.js').forEach(route => {
+FileFinder.getGlobbedFiles('./src/routes.js').forEach(route => {
     require(path.resolve(route))(server);
     console.log(chalk.red.bgWhite('Loaded:'), route);
 });
@@ -25,7 +26,7 @@ const swaggerOptions = {
 server.register({
     register: Swagger,
     options: swaggerOptions
-}, function (err) {
+}, (err) => {
     if (err) {
         throw(err);
     }

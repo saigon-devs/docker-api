@@ -1,7 +1,9 @@
 'use strict';
 
-export default class CoreController {
-    static indexAction (request, reply) {
+class CoreController {
+    indexAction(request, reply) {
         reply('Hello, world!');
     }
 }
+
+export default new CoreController();
