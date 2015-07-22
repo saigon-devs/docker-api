@@ -5,7 +5,7 @@ import Swagger from 'hapi-swagger';
 import path from 'path';
 import chalk from 'chalk';
 import config from './config/config';
-var pack = require('./package.json');
+import pack from './package.json';
 
 // init server
 const server = new Hapi.Server();
