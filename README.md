@@ -7,3 +7,5 @@ A Docker Restful API for any application can consume and extend even more...
 
 # Swagger UI
 `http://[your uri]:3000/documentation`
+
+![alt text](https://github.com/saigon-devs/docker-api/static/images/swagger-ui.png "Swagger UI")
