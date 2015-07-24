@@ -4,9 +4,12 @@ import Hapi from 'hapi';
 import Swagger from 'hapi-swagger';
 import path from 'path';
 import chalk from 'chalk';
+import _ from 'lodash';
 import config from './config/config';
 import pack from './package.json';
 import FileFinder from './src/utils/file-finder';
+import SwaggerPlugin from './plugins/swagger';
+import JwtAuthPlugin from './plugins/jwt';
 
 // init server
 const server = new Hapi.Server();
@@ -18,18 +21,18 @@ FileFinder.getGlobbedFiles('./src/routes.js').forEach(route => {
     console.log(chalk.red.bgWhite('Loaded:'), route);
 });
 
-// register plugins
-const swaggerOptions = {
-    basePath: server.info.uri,
-    apiVersion: pack.version
-};
-server.register({
-    register: Swagger,
-    options: swaggerOptions
-}, (err) => {
+// set base path for swagger ui
+_.assign(SwaggerPlugin.options, {basePath: server.info.uri});
+
+// register plugins and error handling
+server.register([SwaggerPlugin, JwtAuthPlugin.JwtAuth], (err) => {
     if (err) {
         throw(err);
     }
+
+    // check Jwt authentication
+    server.auth.strategy('jwt', 'jwt', true, JwtAuthPlugin.JwtConfig);
+
     // Start server
     server.start(() => {
         console.log(chalk.red.bgWhite('Server running at:'), server.info.uri);

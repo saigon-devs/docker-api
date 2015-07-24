@@ -8,27 +8,70 @@ export default function (server) {
     server.route({
         method: 'GET',
         path: '/',
-        handler: CoreController.indexAction
+        handler: CoreController.indexAction,
+        config: {
+            auth: false
+        }
+    });
+
+    server.route({
+        method: 'POST',
+        path: '/users/auth',
+        config: {
+            handler: CoreController.authAction,
+            auth: false,
+            description: 'Get Authentication Token',
+            tags: ['api', 'auth'],
+            validate: {
+                payload: {
+                    username: joi.string()
+                        .required()
+                        .description('username'),
+                    password: joi.string()
+                        .required()
+                        .description('password')
+                }
+            }
+        }
+    });
+
+    server.route({
+        method: 'POST',
+        path: '/users/logout',
+        config: {
+            handler: CoreController.logoutAction,
+            auth: false,
+            description: 'Log out',
+            tags: ['api', 'auth']
+        }
     });
 
     server.route({
         method: 'GET',
         path: '/containers',
-        handler: ContainerController.getAllAction,
         config: {
+            handler: ContainerController.getAllAction,
             description: 'Get all containers',
-            tags: ['api', 'container']
+            tags: ['api', 'container'],
+            validate: {
+                headers: joi.object({
+                    authorization: joi.string().required()
+                }).options({allowUnknown: true})
+            }
         }
     });
 
     server.route({
         method: 'GET',
         path: '/containers/{id}',
-        handler: ContainerController.getByIdAction,
         config: {
-            description: 'Get container by id',
+            handler: ContainerController.getByIdAction,
+            description: 'Get a container by id',
             tags: ['api', 'container'],
             validate: {
+                headers: joi.object({
+                    authorization: joi.string().required()
+                }).options({allowUnknown: true}),
                 params: {
                     id: joi.number()
                         .required()
@@ -41,12 +84,15 @@ export default function (server) {
     server.route({
         method: 'POST',
         path: '/containers',
-        handler: ContainerController.insertAction,
         config: {
+            handler: ContainerController.insertAction,
             description: 'Insert a new container',
             tags: ['api', 'container'],
             validate: {
-                params: {
+                headers: joi.object({
+                    authorization: joi.string().required()
+                }).options({allowUnknown: true}),
+                payload: {
                     name: joi.string()
                         .required()
                         .description('container name'),
@@ -60,15 +106,23 @@ export default function (server) {
     server.route({
         method: 'PUT',
         path: '/containers/{id}',
-        handler: ContainerController.updateAction,
         config: {
+            handler: ContainerController.updateAction,
             description: 'Update a container',
             tags: ['api', 'container'],
             validate: {
-                params: {
+                headers: joi.object({
+                    authorization: joi.string().required()
+                }).options({allowUnknown: true}),
+                payload: {
                     id: joi.number()
                         .required()
-                        .description('container id')
+                        .description('container id'),
+                    name: joi.string()
+                        .required()
+                        .description('container name'),
+                    description: joi.string()
+                        .description('container description')
                 }
             }
         }
@@ -77,12 +131,15 @@ export default function (server) {
     server.route({
         method: 'DELETE',
         path: '/containers/{id}',
-        handler: ContainerController.deleteAction,
         config: {
+            handler: ContainerController.deleteAction,
             description: 'Delete a container',
             tags: ['api', 'container'],
             validate: {
-                params: {
+                headers: joi.object({
+                    authorization: joi.string().required()
+                }).options({allowUnknown: true}),
+                payload: {
                     id: joi.number()
                         .required()
                         .description('container id')
