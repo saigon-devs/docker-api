@@ -1,8 +1,10 @@
 'use strict';
 
+import ContainerData from '../../static/data/containers.json';
+
 class ContainerController {
     getAllAction(request, reply) {
-        reply('get all');
+        reply(ContainerData);
     }
 
     getByIdAction(request, reply) {
