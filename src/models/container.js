@@ -1,7 +1,8 @@
 /**
  * Created by phihuynh on 7/27/15.
  */
-'use strict'
+'use strict';
+
 export default class ContainerModel{
     constructor(id, command, name, image, status, ports, isRunning){
         this.id = id;

@@ -1,16 +1,11 @@
 'use strict';
 
 import ContainerData from '../../static/data/containers.json';
-import DockerApi from '../libs/docker-api';
-import ContainerModel from '../models/container';
-
-import ContainerService from '../services/container.service'
+import ContainerService from '../services/container.service';
 
 class ContainerController {
     getAllAction(request, reply) {
-        ContainerService.getAllContainers(function(containerList){
-            reply(containerList).code(200);
-        });
+        reply(ContainerService.getAllContainers()).code(200);
     }
 
     getByIdAction(request, reply) {
