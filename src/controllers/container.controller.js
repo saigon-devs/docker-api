@@ -3,30 +3,14 @@
 import ContainerData from '../../static/data/containers.json';
 import DockerApi from '../libs/docker-api';
 import ContainerModel from '../models/container';
-import config from '../../config/config';
 
-const dockerApi = new DockerApi(config.app.dockerServer, config.app.dockerPort);
+import ContainerService from '../services/container.service'
 
 class ContainerController {
     getAllAction(request, reply) {
-
-        dockerApi.getAllContainers({all: 1}, function (resData) {
-            let containerList = [];
-            let containers = JSON.parse(resData.data);
-            for (var container of containers) {
-                containerList.push(new ContainerModel(
-                    container.Id,
-                    container.Command,
-                    container.Names,
-                    container.Image,
-                    container.Status,
-                    container.Ports,
-                    container.Status.indexOf('Exited') >= 0 ? 0 : 1));
-            }
-
+        ContainerService.getAllContainers(function(containerList){
             reply(containerList).code(200);
         });
-
     }
 
     getByIdAction(request, reply) {
