@@ -1,0 +1,41 @@
+{
+  "name": "docker-api",
+  "version": "0.0.1",
+  "description": "The Docker API utils library",
+  "keywords": [
+    "docker",
+    "api",
+    "dockerapi"
+  ],
+  "homepage": "http://github.com/phuongle/dockerapi",
+  "bugs": {
+    "url": "https://github.com/phuongle/dockerapi/issues"
+  },
+  "files": [
+    "index.js"
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phuongle/dockerapi.git"
+  },
+  "author": {
+    "name": "phuongle"
+  },
+  "contributors": [
+    {
+      "name": "thangchung",
+      "email": "thangchung@ymail.com"
+    }
+  ],
+  "license": "BSD",
+  "devDependencies": {
+    "async": "^1.0.0"
+  },
+  "maintainers": [
+    {
+      "name": "phuongle",
+      "email": "phuong.le@harveynash.vn"
+    }
+  ]
+}
