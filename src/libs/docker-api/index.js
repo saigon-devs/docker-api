@@ -31,13 +31,11 @@ export default class DockerApi{
             method: method,
             headers: headers
         };
+
         console.log(options);
-        console.log(http);
         var req = http.request(options, function (res) {
             res.setEncoding('utf-8');
             var responseString = '';
-
-            console.log("docker-api");
 
             res.on('data', function (data) {
                 responseString += data;
