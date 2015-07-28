@@ -1,7 +1,7 @@
 'use strict';
 
 import Swagger from 'hapi-swagger';
-import pack from '../package.json';
+import pack from '../../package.json';
 
 let SwaggerPlugin = {
     register: Swagger,

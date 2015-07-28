@@ -18,8 +18,8 @@ export default function (server) {
         method: 'POST',
         path: '/users/auth',
         config: {
-            handler: CoreController.authAction,
             auth: false,
+            handler: CoreController.authAction,
             description: 'Get Authentication Token',
             tags: ['api', 'auth'],
             validate: {
@@ -39,8 +39,8 @@ export default function (server) {
         method: 'POST',
         path: '/users/logout',
         config: {
-            handler: CoreController.logoutAction,
             auth: false,
+            handler: CoreController.logoutAction,
             description: 'Log out',
             tags: ['api', 'auth']
         }
@@ -50,12 +50,13 @@ export default function (server) {
         method: 'GET',
         path: '/containers',
         config: {
+            auth: false,
             handler: ContainerController.getAllAction,
             description: 'Get all containers',
             tags: ['api', 'container'],
             validate: {
                 headers: joi.object({
-                    authorization: joi.string().required()
+                    authorization: joi.string()
                 }).options({allowUnknown: true})
             }
         }
@@ -65,12 +66,13 @@ export default function (server) {
         method: 'GET',
         path: '/containers/{id}',
         config: {
+            auth: false,
             handler: ContainerController.getByIdAction,
             description: 'Get a container by id',
             tags: ['api', 'container'],
             validate: {
                 headers: joi.object({
-                    authorization: joi.string().required()
+                    authorization: joi.string()
                 }).options({allowUnknown: true}),
                 params: {
                     id: joi.number()
@@ -85,12 +87,13 @@ export default function (server) {
         method: 'POST',
         path: '/containers',
         config: {
+            auth: false,
             handler: ContainerController.insertAction,
             description: 'Insert a new container',
             tags: ['api', 'container'],
             validate: {
                 headers: joi.object({
-                    authorization: joi.string().required()
+                    authorization: joi.string()
                 }).options({allowUnknown: true}),
                 payload: {
                     name: joi.string()
@@ -107,12 +110,13 @@ export default function (server) {
         method: 'PUT',
         path: '/containers/{id}',
         config: {
+            auth: false,
             handler: ContainerController.updateAction,
             description: 'Update a container',
             tags: ['api', 'container'],
             validate: {
                 headers: joi.object({
-                    authorization: joi.string().required()
+                    authorization: joi.string()
                 }).options({allowUnknown: true}),
                 payload: {
                     id: joi.number()
@@ -132,12 +136,13 @@ export default function (server) {
         method: 'DELETE',
         path: '/containers/{id}',
         config: {
+            auth: false,
             handler: ContainerController.deleteAction,
             description: 'Delete a container',
             tags: ['api', 'container'],
             validate: {
                 headers: joi.object({
-                    authorization: joi.string().required()
+                    authorization: joi.string()
                 }).options({allowUnknown: true}),
                 payload: {
                     id: joi.number()

@@ -1,7 +1,7 @@
 'use strict';
 
 import JwtAuth from 'hapi-auth-jwt2';
-import config from '../config/config';
+import config from '../../config/config';
 
 let jwtPlugin = {
     JwtAuth: JwtAuth,

@@ -8,8 +8,8 @@ import _ from 'lodash';
 import config from './config/config';
 import pack from './package.json';
 import FileFinder from './src/utils/file-finder';
-import SwaggerPlugin from './plugins/swagger';
-import JwtAuthPlugin from './plugins/jwt';
+import SwaggerPlugin from './src/plugins/swagger';
+import JwtAuthPlugin from './src/plugins/jwt';
 
 // init server
 const server = new Hapi.Server();
