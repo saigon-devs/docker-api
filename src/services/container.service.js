@@ -26,6 +26,14 @@ class ContainerService{
             });
         });
     };
+
+    getContainerById(containerId){
+        return new Promise((resolve, reject) => {
+            dockerApi.queryInspectContainer(containerId, (resData) => {
+               resolve(resData.data);
+            });
+        });
+    };
 }
 
 export default new ContainerService();

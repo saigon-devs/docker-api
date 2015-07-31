@@ -9,7 +9,7 @@ class ContainerController {
     }
 
     getByIdAction(request, reply) {
-        reply('get by id');
+        reply(ContainerService.getContainerById(request.params.id)).code(200);
     }
 
     insertAction(request, reply) {

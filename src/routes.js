@@ -75,7 +75,7 @@ export default function (server) {
                     authorization: joi.string()
                 }).options({allowUnknown: true}),
                 params: {
-                    id: joi.number()
+                    id: joi.string()
                         .required()
                         .description('container id')
                 }
