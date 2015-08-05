@@ -2,6 +2,7 @@
 
 import ContainerData from '../../static/data/containers.json';
 import ContainerService from '../services/container.service';
+import ContainerModel from '../models/container';
 
 class ContainerController {
     getAllAction(request, reply) {
@@ -12,8 +13,12 @@ class ContainerController {
         reply(ContainerService.getContainerById(request.params.id)).code(200);
     }
 
-    insertAction(request, reply) {
-        reply('insert');
+    createAction(request, reply) {
+        var container = {
+          "image": request.payload.image
+        };
+
+        reply(ContainerService.createContainer(container)).code(200);
     }
 
     updateAction(request, reply) {

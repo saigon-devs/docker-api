@@ -88,8 +88,8 @@ export default function (server) {
         path: '/containers',
         config: {
             auth: false,
-            handler: ContainerController.insertAction,
-            description: 'Insert a new container',
+            handler: ContainerController.createAction,
+            description: 'Create a new container',
             tags: ['api', 'container'],
             validate: {
                 headers: joi.object({
@@ -99,6 +99,9 @@ export default function (server) {
                     name: joi.string()
                         .required()
                         .description('container name'),
+                    image: joi.string()
+                        .required()
+                        .description('image name'),
                     description: joi.string()
                         .description('container description')
                 }
