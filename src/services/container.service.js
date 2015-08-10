@@ -1,79 +1,70 @@
 'use strict';
 
-import DockerApi from 'docker-api-wrapper';
 import config from '../../config/config';
 import ContainerModel from '../models/container';
+import DockerWrapper from './docker.wrapper.js'
 
 const dockerApi = new DockerApi(config.app.dockerServer, config.app.dockerPort);
+const dockerWrapper = new DockerWrapper(config.app.dockerServer, config.app.dockerPort, config.app.dockerProtocol);
+//const client = new restClient.Client();
 
 class ContainerService{
     getAllContainers(){
         return new Promise((resolve, reject) => {
-            dockerApi.getAllContainers({all: 1}, (resData) => {
-                let containerList = [];
-                let containers = JSON.parse(resData.data);
-                for (var container of containers) {
-                    containerList.push(new ContainerModel(
-                        container.Id,
-                        container.Command,
-                        container.Names,
-                        container.Image,
-                        container.Status,
-                        container.Ports,
-                        container.Status.indexOf('Exited') >= 0 ? 0 : 1));
-                }
-                resolve(containerList);
-            });
+            dockerWrapper.getAllContainers()
+                .then(data => {
+                    let containerList = [];
+                    for (var container of data) {
+                        containerList.push(new ContainerModel(
+                            container.Id,
+                            container.Command,
+                            container.Names,
+                            container.Image,
+                            container.Status,
+                            container.Ports,
+                            container.Status.indexOf('Exited') >= 0 ? 0 : 1));
+                    }
+                    resolve(containerList);
+                });
         });
     };
 
     getContainerById(containerId){
         return new Promise((resolve, reject) => {
-            dockerApi.getAllContainers({all: 0, before: containerId, size: 1}, (resData) => {
-                let containerList = [];
-                let containers = JSON.parse(resData.data);
-                for (var container of containers) {
-                    containerList.push(new ContainerModel(
-                        container.Id,
-                        container.Command,
-                        container.Names,
-                        container.Image,
-                        container.Status,
-                        container.Ports,
-                        container.Status.indexOf('Exited') >= 0 ? 0 : 1));
-                }
-                resolve(containerList);
-            });
+            dockerWrapper.getContainerById(containerId)
+                .then(data => {
+                    let containerList = [];
+                    for (var container of data) {
+                        containerList.push(new ContainerModel(
+                            container.Id,
+                            container.Command,
+                            container.Names,
+                            container.Image,
+                            container.Status,
+                            container.Ports,
+                            container.Status.indexOf('Exited') >= 0 ? 0 : 1));
+                    }
+
+                    resolve(containerList);
+                });
         });
     };
 
     createContainer(container){
+        return dockerWrapper.createContainer(container);
+    };
+
+    getContainerProcesses(containerId){
         return new Promise((resolve, reject) => {
 
-            var containerRequestData = {
-                "Hostname":"",
-                "User":"",
-                "Memory":0,
-                "MemorySwap":0,
-                "AttachStdin":false,
-                "AttachStdout":true,
-                "AttachStderr":true,
-                "PortSpecs":null,
-                "Privileged": false,
-                "Tty":false,
-                "OpenStdin":false,
-                "StdinOnce":false,
-                "Env":null,
-                "Dns":null,
-                "Image": container.image,
-                "Volumes":{},
-                "VolumesFrom":"",
-                "WorkingDir":""
-            };
-
-            dockerApi.createContainer(containerRequestData, (resData) => {
-                resolve(resData.data);
-            });
+            //client.get('http://' + config.app.dockerServer + ':' + config.app.dockerPort + '/containers/c3e4500d95c7d9c5d85a3a2d807321c4675e4ebf5c4f3286f83c8e06e46bd14c/json', function(data, response){
+            //    // parsed response body as js object
+            //    console.log(data);
+            //    // raw response
+            //    console.log(response);
+            //
+            //    resolve(data);
+            //});
         });
     };
 }

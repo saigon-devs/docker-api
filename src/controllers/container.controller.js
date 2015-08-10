@@ -6,7 +6,9 @@ import ContainerModel from '../models/container';
 
 class ContainerController {
     getAllAction(request, reply) {
-        reply(ContainerService.getAllContainers()).code(200);
+        var result = ContainerService.getAllContainers();
+        console.log(result);
+        reply(result).code(200);
     }
 
     getByIdAction(request, reply) {
@@ -19,6 +21,10 @@ class ContainerController {
         };
 
         reply(ContainerService.createContainer(container)).code(200);
+    }
+
+    getContainerProcesses(request, reply){
+        reply(ContainerService.getContainerProcesses(request.params.id)).code(200);
     }
 
     updateAction(request, reply) {

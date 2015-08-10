@@ -83,6 +83,28 @@ export default function (server) {
         }
     });
 
+
+    server.route({
+        method: 'GET',
+        path: '/containers/{id}/processes',
+        config: {
+            auth: false,
+            handler: ContainerController.getContainerProcesses,
+            description: 'Get container processes',
+            tags: ['api', 'container', 'process'],
+            validate: {
+                headers: joi.object({
+                    authorization: joi.string()
+                }).options({allowUnknown: true}),
+                params: {
+                    id: joi.string()
+                        .required()
+                        .description('container id')
+                }
+            }
+        }
+    });
+
     server.route({
         method: 'POST',
         path: '/containers',
@@ -134,6 +156,8 @@ export default function (server) {
             }
         }
     });
+
+
 
     server.route({
         method: 'DELETE',
