@@ -13,29 +13,42 @@ import FileFinder from './src/utils/file-finder';
 import SwaggerPlugin from './src/plugins/swagger';
 import JwtAuthPlugin from './src/plugins/jwt';
 
-// init server
+/**
+ * Init server
+ * @type {internals.Server|*|Server}
+ */
 const server = new Hapi.Server();
 server.connection({port: config.port});
 
-// after that we will loading all routes
+/**
+ * After that we will loading all routes
+ */
 FileFinder.getGlobbedFiles('./src/routes.js').forEach(route => {
   require(path.resolve(route))(server);
   console.log(chalk.red.bgWhite('Loaded:'), route);
 });
 
-// set base path for swagger ui
+/**
+ * Set base path for swagger ui
+ */
 _.assign(SwaggerPlugin.options, {basePath: server.info.uri});
 
-// register plugins and error handling
+/**
+ * Register plugins and error handling
+ */
 server.register([Inert, Vision, SwaggerPlugin, JwtAuthPlugin.JwtAuth], (err) => {
   if (err) {
     throw(err);
   }
 
-  // check Jwt authentication
+  /**
+   * Check Jwt authentication
+   */
   server.auth.strategy('jwt', 'jwt', true, JwtAuthPlugin.JwtConfig);
 
-  // Start server
+  /**
+   * Start server
+   */
   server.start(() => {
     console.log(chalk.red.bgWhite('Server running at:'), server.info.uri);
   });
