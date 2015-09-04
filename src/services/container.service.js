@@ -42,7 +42,6 @@ class ContainerService {
     return container
       .queryInspectContainer({containerId: containerId})
       .then(result => {
-        console.log(result);
         if (result.data !== null) {
           return result.data;
         }

@@ -1,7 +1,6 @@
 'use strict';
 
 import ContainerService from '../services/container.service';
-import { Container } from 'docker-api-wrapper';
 
 class ContainerController {
   getAllAction(request, reply) {
