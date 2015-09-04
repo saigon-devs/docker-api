@@ -2,6 +2,8 @@
 
 import Hapi from 'hapi';
 import Swagger from 'hapi-swagger';
+import Inert from 'inert';
+import Vision from 'vision';
 import path from 'path';
 import chalk from 'chalk';
 import _ from 'lodash';
@@ -17,24 +19,24 @@ server.connection({port: config.port});
 
 // after that we will loading all routes
 FileFinder.getGlobbedFiles('./src/routes.js').forEach(route => {
-    require(path.resolve(route))(server);
-    console.log(chalk.red.bgWhite('Loaded:'), route);
+  require(path.resolve(route))(server);
+  console.log(chalk.red.bgWhite('Loaded:'), route);
 });
 
 // set base path for swagger ui
 _.assign(SwaggerPlugin.options, {basePath: server.info.uri});
 
 // register plugins and error handling
-server.register([SwaggerPlugin, JwtAuthPlugin.JwtAuth], (err) => {
-    if (err) {
-        throw(err);
-    }
+server.register([Inert, Vision, SwaggerPlugin, JwtAuthPlugin.JwtAuth], (err) => {
+  if (err) {
+    throw(err);
+  }
 
-    // check Jwt authentication
-    server.auth.strategy('jwt', 'jwt', true, JwtAuthPlugin.JwtConfig);
+  // check Jwt authentication
+  server.auth.strategy('jwt', 'jwt', true, JwtAuthPlugin.JwtConfig);
 
-    // Start server
-    server.start(() => {
-        console.log(chalk.red.bgWhite('Server running at:'), server.info.uri);
-    });
+  // Start server
+  server.start(() => {
+    console.log(chalk.red.bgWhite('Server running at:'), server.info.uri);
+  });
 });
